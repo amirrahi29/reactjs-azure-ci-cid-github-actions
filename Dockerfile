@@ -1,8 +1,8 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-# npm ci = fast + reproducible jab package-lock.json ho; warna npm install (branch par lock missing hone par CI fail na ho)
-RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+# npm ci yahan aksar fail (peer deps / lock vs npm 10). CRA + React 19 ke liye install + legacy-peer-deps stable.
+RUN npm install --legacy-peer-deps --no-audit --no-fund
 COPY public ./public
 COPY src ./src
 RUN npm run build
