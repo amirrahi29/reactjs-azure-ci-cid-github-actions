@@ -1,3 +1,18 @@
+# UAT — branch `uat` → namespace `uat` → tag `uat-<sha>` → helm/values-uat.yaml
+
+replicaCount: 2
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+podAnnotations:
+  environment: uat
+
 service:
   type: LoadBalancer
 

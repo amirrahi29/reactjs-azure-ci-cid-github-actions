@@ -1,3 +1,18 @@
+# Staging — branch `staging` → namespace `staging` → tag `staging-<sha>` → helm/values-staging.yaml
+
+replicaCount: 2
+
+resources:
+  limits:
+    cpu: 150m
+    memory: 112Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+podAnnotations:
+  environment: staging
+
 service:
   type: LoadBalancer
 
