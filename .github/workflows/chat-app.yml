@@ -1,4 +1,5 @@
-# Multi-env: branch naam = AKS namespace + helm/values-<branch>.yaml (dev push → dev namespace + values-dev.yaml)
+# Multi-env: branch = namespace = values file
+#   dev → dev → helm/values-dev.yaml | staging → staging → values-staging.yaml | uat → uat → helm/values-uat.yaml
 name: Build, Push & Deploy to AKS
 
 on:
