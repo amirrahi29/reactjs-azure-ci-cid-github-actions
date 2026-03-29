@@ -1,6 +1,6 @@
 # UAT — git branch `uat` → CI namespace `uat` → image tag `uat-<sha>` → yeh file: helm/values-uat.yaml
 # Push `uat` par: .github/workflows/chat-app.yml → ACR → helm upgrade -f helm/values-uat.yaml
-# (Dev jaisa sizing: 1 pod, halki resources — cost/testing ke liye)
+# Dev jaisa sizing: 1 pod, halki resources
 
 replicaCount: 1
 
