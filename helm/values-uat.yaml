@@ -1,15 +1,16 @@
-# UAT — branch `uat` → namespace `uat` → image tag `uat-<sha>` → helm/values-uat.yaml
+# UAT — git branch `uat` → CI namespace `uat` → image tag `uat-<sha>` → yeh file: helm/values-uat.yaml
 # Push `uat` par: .github/workflows/chat-app.yml → ACR → helm upgrade -f helm/values-uat.yaml
+# (Dev jaisa sizing: 1 pod, halki resources — cost/testing ke liye)
 
-replicaCount: 2
+replicaCount: 1
 
 resources:
   limits:
-    cpu: 250m
-    memory: 160Mi
+    cpu: 100m
+    memory: 96Mi
   requests:
-    cpu: 50m
-    memory: 80Mi
+    cpu: 25m
+    memory: 48Mi
 
 podAnnotations:
   environment: uat
@@ -28,5 +29,5 @@ ingress:
 
 autoscaling:
   enabled: false
-  minReplicas: 2
-  maxReplicas: 5
+  minReplicas: 1
+  maxReplicas: 3
