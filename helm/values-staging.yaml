@@ -11,6 +11,6 @@ ingress:
           pathType: Prefix
 
 autoscaling:
-  enabled: false
+  enabled: false 
   minReplicas: 1
   maxReplicas: 3
