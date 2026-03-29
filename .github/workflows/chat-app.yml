@@ -51,10 +51,11 @@ jobs:
           docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG .
 
       - name: Push image to ACR
-        run: docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG
+        run: "docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
 
       - name: Image summary
-        run: echo "Pushed: $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
+        run: |
+          echo "Pushed: $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
 
   deploy:
     runs-on: ubuntu-latest
