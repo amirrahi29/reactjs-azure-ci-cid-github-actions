@@ -6,6 +6,7 @@ function App() {
 
   return (
     <div className="app">
+       <h3>Staging Environment</h3>
       <main className="card">
         <h1 className="title">Counter</h1>
         <p className="value" aria-live="polite">
