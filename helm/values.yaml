@@ -1,4 +1,4 @@
-# Alag chart = backend ./helm se independent. CI: helm-frontend/values-<dev|staging|uat>.yaml
+# React (nginx) chart — CI: helm/values-<dev|staging|uat>.yaml
 replicaCount: 2
 
 image:

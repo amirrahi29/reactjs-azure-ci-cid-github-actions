@@ -1,4 +1,4 @@
-# Multi-env: dev / staging / uat branches → same AKS cluster, alag namespace + alag image tag + helm/values-<env>.yaml
+# Multi-env: dev / staging / uat → ACR image + Helm deploy (React static + nginx)
 name: Build, Push & Deploy to AKS
 
 on:
@@ -10,8 +10,7 @@ on:
 
 env:
   ACR_NAME: chatappregsistry
-  IMAGE_NAME: chat-app
-  FRONTEND_IMAGE_NAME: frontend-app
+  IMAGE_NAME: frontend-app
   AKS_CLUSTER_NAME: ChatAppCluster
   AKS_RESOURCE_GROUP: ChatResourceGroup
 
@@ -43,25 +42,16 @@ jobs:
       - name: Login to ACR
         run: az acr login --name $ACR_NAME
 
-      - name: Build backend image (API)
+      - name: Build image (React + nginx)
         run: |
           echo "Building: $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
           docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG .
 
-      - name: Build frontend image (React + nginx)
-        run: |
-          echo "Building: $ACR_NAME.azurecr.io/$FRONTEND_IMAGE_NAME:$IMAGE_TAG"
-          docker build -f frontend-app/Dockerfile -t $ACR_NAME.azurecr.io/$FRONTEND_IMAGE_NAME:$IMAGE_TAG frontend-app
-
-      - name: Push images to ACR
-        run: |
-          docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG
-          docker push $ACR_NAME.azurecr.io/$FRONTEND_IMAGE_NAME:$IMAGE_TAG
+      - name: Push image to ACR
+        run: docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG
 
       - name: Image summary
-        run: |
-          echo "Pushed API: $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
-          echo "Pushed UI: $ACR_NAME.azurecr.io/$FRONTEND_IMAGE_NAME:$IMAGE_TAG"
+        run: echo "Pushed: $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG"
 
   deploy:
     runs-on: ubuntu-latest
@@ -87,10 +77,10 @@ jobs:
         with:
           version: v3.14.4
 
-      - name: Helm upgrade API (chat-app)
+      - name: Helm upgrade (frontend-app)
         run: |
           NS='${{ needs.build-and-push.outputs.namespace }}'
-          helm upgrade --install chat-app ./helm \
+          helm upgrade --install frontend-app ./helm \
             --namespace "$NS" \
             --create-namespace \
             -f "helm/values-${NS}.yaml" \
@@ -98,20 +88,8 @@ jobs:
             --set image.tag=${{ needs.build-and-push.outputs.image_tag }} \
             --wait --timeout 5m
 
-      - name: Helm upgrade UI (frontend-app)
-        run: |
-          NS='${{ needs.build-and-push.outputs.namespace }}'
-          helm upgrade --install frontend-app ./helm-frontend \
-            --namespace "$NS" \
-            --create-namespace \
-            -f "helm-frontend/values-${NS}.yaml" \
-            --set image.repository=${{ env.ACR_NAME }}.azurecr.io/${{ env.FRONTEND_IMAGE_NAME }} \
-            --set image.tag=${{ needs.build-and-push.outputs.image_tag }} \
-            --wait --timeout 5m
-
       - name: Deploy summary
         run: |
-          echo "Environment: ${{ needs.build-and-push.outputs.namespace }}"
           echo "Namespace: ${{ needs.build-and-push.outputs.namespace }}"
-          echo "API chart: ./helm  |  UI chart: ./helm-frontend"
+          echo "Chart: ./helm | Release: frontend-app"
           echo "Tag: ${{ needs.build-and-push.outputs.image_tag }}"
