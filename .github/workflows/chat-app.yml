@@ -1,4 +1,4 @@
-# Multi-env: dev / staging / uat → ACR image + Helm deploy (React static + nginx)
+# Multi-env: branch naam = AKS namespace + helm/values-<branch>.yaml (dev push → dev namespace + values-dev.yaml)
 name: Build, Push & Deploy to AKS
 
 on:
