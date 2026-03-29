@@ -1,0 +1,75 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: linear-gradient(145deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+}
+
+.card {
+  width: 100%;
+  max-width: 320px;
+  padding: 2rem 1.75rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+
+.title {
+  margin: 0 0 1.25rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  letter-spacing: 0.02em;
+}
+
+.value {
+  margin: 0 0 1.5rem;
+  font-size: 3.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #38bdf8;
+  line-height: 1;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  min-width: 3.25rem;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #334155;
+  color: #f1f5f9;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.actions button:hover {
+  background: #475569;
+}
+
+.actions button:active {
+  transform: scale(0.97);
+}
+
+.actions button:nth-child(2) {
+  min-width: auto;
+  padding-inline: 1.25rem;
+  background: #0ea5e9;
+  color: #0f172a;
+}
+
+.actions button:nth-child(2):hover {
+  background: #38bdf8;
+}

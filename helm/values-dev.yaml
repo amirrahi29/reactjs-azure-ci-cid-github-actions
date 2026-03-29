@@ -1,0 +1,17 @@
+# Dev UI — same namespace dev, alag Service / alag EXTERNAL-IP (app.mergeai.in jab domain ho)
+service:
+  type: LoadBalancer
+
+ingress:
+  enabled: false
+  className: nginx
+  hosts:
+    - host: app-dev.mergeai.in
+      paths:
+        - path: /
+          pathType: Prefix
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
