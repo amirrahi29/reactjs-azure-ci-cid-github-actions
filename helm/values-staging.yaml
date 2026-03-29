@@ -1,15 +1,16 @@
-# Staging — branch `staging` → namespace `staging` → tag `staging-<sha>` → helm/values-staging.yaml
+# Staging — git branch `staging` → CI namespace `staging` → image tag `staging-<sha>` → yeh file: helm/values-staging.yaml
 # Push `staging` par: .github/workflows/chat-app.yml → ACR → helm upgrade -f helm/values-staging.yaml
+# (Dev jaisa sizing: 1 pod, halki resources)
 
-replicaCount: 2
+replicaCount: 1
 
 resources:
   limits:
-    cpu: 150m
-    memory: 112Mi
+    cpu: 100m
+    memory: 96Mi
   requests:
-    cpu: 50m
-    memory: 64Mi
+    cpu: 25m
+    memory: 48Mi
 
 podAnnotations:
   environment: staging
@@ -29,4 +30,4 @@ ingress:
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 4
+  maxReplicas: 3
