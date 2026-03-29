@@ -1,3 +1,19 @@
+# Staging — branch `staging` → namespace `staging` → tag `staging-<sha>` → helm/values-staging.yaml
+# Push `staging` par: .github/workflows/chat-app.yml → ACR → helm upgrade -f helm/values-staging.yaml
+
+replicaCount: 2
+
+resources:
+  limits:
+    cpu: 150m
+    memory: 112Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+podAnnotations:
+  environment: staging
+
 service:
   type: LoadBalancer
 
@@ -11,6 +27,6 @@ ingress:
           pathType: Prefix
 
 autoscaling:
-  enabled: false 
+  enabled: false
   minReplicas: 1
-  maxReplicas: 3
+  maxReplicas: 4
